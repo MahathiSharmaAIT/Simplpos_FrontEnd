@@ -4,6 +4,10 @@ import { Login } from "./pages/Login";
 import { OrderFormPage } from "./pages/OrderFormPage"; // ⬅️ new page
 import { CustomerFormPage } from "./pages/CustomerFormPage"; // ⬅️ new page
 import { CustomersList } from "./pages/CustomersList"; // ⬅️ new page
+import { ProductsList } from "./pages/ProductList";
+import { CategoriesList } from "./pages/CategoriesList";
+import { ProductFormPage } from "./pages/ProductFormPage";
+import { CategoryFormPage } from "./pages/CategoryFormPage";
 
 
 
@@ -74,6 +78,14 @@ function App() {
     </ProtectedRoute>
   }
 />
+<Route path="/products" element={<ProductsList />} />
+<Route path="/products/new" element={<ProductFormPage />} />
+<Route path="/products/edit/:id" element={<ProductFormPage />} />
+
+<Route path="/categories" element={<CategoriesList />} />
+<Route path="/categories/new" element={<CategoryFormPage />} />
+<Route path="/categories/edit/:id" element={<CategoryFormPage />} />
+
 
 
         <Route path="*" element={<Navigate to="/orders" />} />

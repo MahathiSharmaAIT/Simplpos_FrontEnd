@@ -20,7 +20,7 @@ export const Login = () => {
       // ✅ Store them for future use
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("isLoggedIn", "true"); // 🔥 ADD THIS LINE
+      localStorage.setItem("isLoggedIn", "true");
 
       // ✅ Redirect to Orders page
       navigate("/orders", { replace: true });

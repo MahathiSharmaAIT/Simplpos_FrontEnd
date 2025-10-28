@@ -1,24 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-// 🧱 Layout
 import { DashboardLayout } from "./layouts/DashboardLayout";
-
-// 🔐 Auth
 import { Login } from "./pages/Login";
-
-// 📦 Orders
 import { OrdersList } from "./pages/OrdersList";
 import { OrderFormPage } from "./pages/OrderFormPage";
-
-// 👥 Customers
 import { CustomersList } from "./pages/CustomersList";
 import { CustomerFormPage } from "./pages/CustomerFormPage";
-
-// 🛒 Products
 import { ProductsList } from "./pages/ProductList";
 import { ProductFormPage } from "./pages/ProductFormPage";
-
-// 🏷️ Categories
 import { CategoriesList } from "./pages/CategoriesList";
 import { CategoryFormPage } from "./pages/CategoryFormPage";
 
@@ -35,9 +24,8 @@ function App() {
         {/* 🔐 Login Page */}
         <Route path="/login" element={<Login />} />
 
-        {/* ===================== */}
-        {/* DASHBOARD ROUTES WITH SIDEBAR */}
-        {/* ===================== */}
+       
+       
         <Route
           path="/orders"
           element={

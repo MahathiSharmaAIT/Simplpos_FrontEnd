@@ -1,18 +1,28 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { OrdersList } from "./pages/OrdersList";
+
+// 🧱 Layout
+import { DashboardLayout } from "./layouts/DashboardLayout";
+
+// 🔐 Auth
 import { Login } from "./pages/Login";
-import { OrderFormPage } from "./pages/OrderFormPage"; // ⬅️ new page
-import { CustomerFormPage } from "./pages/CustomerFormPage"; // ⬅️ new page
-import { CustomersList } from "./pages/CustomersList"; // ⬅️ new page
+
+// 📦 Orders
+import { OrdersList } from "./pages/OrdersList";
+import { OrderFormPage } from "./pages/OrderFormPage";
+
+// 👥 Customers
+import { CustomersList } from "./pages/CustomersList";
+import { CustomerFormPage } from "./pages/CustomerFormPage";
+
+// 🛒 Products
 import { ProductsList } from "./pages/ProductList";
-import { CategoriesList } from "./pages/CategoriesList";
 import { ProductFormPage } from "./pages/ProductFormPage";
+
+// 🏷️ Categories
+import { CategoriesList } from "./pages/CategoriesList";
 import { CategoryFormPage } from "./pages/CategoryFormPage";
 
-
-
-
-// Protect /orders routes
+// ✅ Protected Route Wrapper
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   return isLoggedIn ? children : <Navigate to="/login" replace />;
@@ -22,73 +32,141 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* 🔐 Login Page */}
         <Route path="/login" element={<Login />} />
 
+        {/* ===================== */}
+        {/* DASHBOARD ROUTES WITH SIDEBAR */}
+        {/* ===================== */}
         <Route
           path="/orders"
           element={
             <ProtectedRoute>
-              <OrdersList />
+              <DashboardLayout>
+                <OrdersList />
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />
-
-        {/* ➕ Create New Order */}
         <Route
           path="/orders/new"
           element={
             <ProtectedRoute>
-              <OrderFormPage mode="create" />
+              <DashboardLayout>
+                <OrderFormPage mode="create" />
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />
-
-        {/* ✏️ Edit Order */}
         <Route
           path="/orders/:id/edit"
           element={
             <ProtectedRoute>
-              <OrderFormPage mode="edit" />
+              <DashboardLayout>
+                <OrderFormPage mode="edit" />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* 👥 Customers */}
+        <Route
+          path="/customers"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <CustomersList />
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />
         <Route
-  path="/customers"
-  element={
-    <ProtectedRoute>
-      <CustomersList />
-    </ProtectedRoute>
-  }
-/>
+          path="/customers/new"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <CustomerFormPage mode="create" />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/customers/:id/edit"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <CustomerFormPage mode="edit" />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
 
-<Route
-  path="/customers/new"
-  element={
-    <ProtectedRoute>
-      <CustomerFormPage mode="create" />
-    </ProtectedRoute>
-  }
-/>
+        {/* 🛒 Products */}
+        <Route
+          path="/products"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <ProductsList />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products/new"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <ProductFormPage  />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products/:id/edit"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <ProductFormPage  />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
 
-<Route
-  path="/customers/:id/edit"
-  element={
-    <ProtectedRoute>
-      <CustomerFormPage mode="edit" />
-    </ProtectedRoute>
-  }
-/>
-<Route path="/products" element={<ProductsList />} />
-<Route path="/products/new" element={<ProductFormPage />} />
-<Route path="/products/edit/:id" element={<ProductFormPage />} />
+        {/* 🏷️ Categories */}
+        <Route
+          path="/categories"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <CategoriesList />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/categories/new"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <CategoryFormPage />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/categories/:id/edit"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <CategoryFormPage/>
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
 
-<Route path="/categories" element={<CategoriesList />} />
-<Route path="/categories/new" element={<CategoryFormPage />} />
-<Route path="/categories/edit/:id" element={<CategoryFormPage />} />
-
-
-
-        <Route path="*" element={<Navigate to="/orders" />} />
+        {/* Redirect unknown routes to Orders */}
+        <Route path="*" element={<Navigate to="/orders" replace />} />
       </Routes>
     </BrowserRouter>
   );

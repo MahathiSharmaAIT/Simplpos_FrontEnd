@@ -14,7 +14,7 @@ export const CustomerFormPage = ({ mode }: Props) => {
 
   useEffect(() => {
     if (mode === "edit" && id) {
-      getCustomerById(id).then((data) => setForm(data));
+    getCustomerById(id).then((data) => setForm(data));
     }
   }, [id, mode]);
 

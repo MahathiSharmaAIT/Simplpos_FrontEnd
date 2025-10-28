@@ -13,7 +13,7 @@ export const getCustomers = async (): Promise<Customer[]> => {
 // ✅ Get single customer
 export const getCustomerById = async (id: string): Promise<Customer> => {
   const res = await axiosInstance.get(`${API_URL}/${id}`);
-  return res.data;
+  return res.data.data;
 };
 
 // ✅ Create customer

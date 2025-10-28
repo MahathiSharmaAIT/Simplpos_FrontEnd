@@ -1,6 +1,6 @@
 import { ReactNode, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react"; // icons
+import { Menu, X, Package, ShoppingCart, Users, Tags } from "lucide-react";
 
 interface Props {
   children: ReactNode;
@@ -11,52 +11,63 @@ export const DashboardLayout = ({ children }: Props) => {
   const location = useLocation();
 
   const navItems = [
-    { name: "Orders", path: "/orders" },
-    { name: "Customers", path: "/customers" },
-    { name: "Products", path: "/products" },
-    { name: "Categories", path: "/categories" },
+    { name: "Orders", path: "/orders", icon: <ShoppingCart size={20} /> },
+    { name: "Customers", path: "/customers", icon: <Users size={20} /> },
+    { name: "Products", path: "/products", icon: <Package size={20} /> },
+    { name: "Categories", path: "/categories", icon: <Tags size={20} /> },
   ];
 
   return (
-    <div className="flex min-h-screen bg-gray-50 text-black">
+    <div className="flex min-h-screen bg-gray-50 text-black transition-all duration-300">
       {/* Sidebar */}
-      <div
-        className={`${
-          isOpen ? "w-64" : "w-16"
-        } bg-gray-900 text-white transition-all duration-300 flex flex-col`}
+      <aside
+        className={`bg-gray-900 text-white h-screen p-4 flex flex-col transition-all duration-300 ${
+          isOpen ? "w-56" : "w-16"
+        }`}
       >
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
-          <span className={`${isOpen ? "block" : "hidden"} text-lg font-bold`}>
-            SimplPOS
-          </span>
-          <button onClick={() => setIsOpen(!isOpen)} className="text-gray-300">
-            {isOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
+        {/* Toggle Button */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="text-gray-300 hover:text-white mb-6 focus:outline-none"
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
 
-        <nav className="flex-1 p-3 space-y-2">
-          {navItems.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`block px-3 py-2 rounded-md text-sm font-medium transition ${
-                location.pathname.startsWith(item.path)
-                  ? "bg-indigo-600 text-white"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white"
-              }`}
-            >
-              {isOpen ? item.name : item.name.charAt(0)}
-            </Link>
-          ))}
+        {/* Navigation */}
+        <nav className="flex flex-col space-y-2">
+          {navItems.map((item) => {
+            const active = location.pathname.startsWith(item.path);
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`flex items-center gap-3 rounded-md p-2 transition-all ${
+                  active
+                    ? "bg-indigo-600 text-white"
+                    : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                }`}
+                title={!isOpen ? item.name : ""}
+              >
+                {item.icon}
+                {isOpen && <span className="text-sm font-medium">{item.name}</span>}
+              </Link>
+            );
+          })}
         </nav>
 
-        <div className="p-3 border-t border-gray-700 text-xs text-gray-400">
-          {isOpen && "© 2025 SimplPOS"}
-        </div>
-      </div>
+        {/* Spacer */}
+        <div className="flex-grow"></div>
+
+        {/* Footer */}
+        {isOpen && (
+          <p className="text-xs text-gray-400 mt-4 text-center">
+            © {new Date().getFullYear()} Orders System
+          </p>
+        )}
+      </aside>
 
       {/* Main Content */}
-      <div className="flex-1 p-8 overflow-auto">{children}</div>
+      <main className="flex-1 p-6 overflow-auto">{children}</main>
     </div>
   );
 };
